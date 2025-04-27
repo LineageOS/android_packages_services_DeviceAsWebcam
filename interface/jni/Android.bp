@@ -29,7 +29,10 @@ cc_library_shared {
         "-O3",
         "-Wextra",
         "-funroll-loops",
-    ],
+    ] + select(soong_config_variable("device_as_webcam", "use_ycrcb_mjpeg_pixel_format"), {
+        "true": ["-DUSE_YCRCB_MJPEG_PIXEL_FORMAT"],
+        default: [],
+    }),
     // for including the jni.h file
     header_libs: ["jni_headers"],
 }

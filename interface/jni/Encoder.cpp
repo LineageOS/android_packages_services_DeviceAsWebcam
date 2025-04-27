@@ -225,8 +225,13 @@ uint32_t Encoder::i420ToJpeg(EncodeRequest& request) {
     std::vector<JSAMPROW> crLines(paddedHeight / cvSubSampling);
 
     uint8_t* pY = mI420.y.get();
+#ifdef USE_YCRCB_MJPEG_PIXEL_FORMAT
+    uint8_t* pCr = mI420.u.get();
+    uint8_t* pCb = mI420.v.get();
+#else
     uint8_t* pCr = mI420.v.get();
     uint8_t* pCb = mI420.u.get();
+#endif
 
     uint32_t cbCrStride = mConfig.width / 2;
     uint32_t yStride = mConfig.width;
